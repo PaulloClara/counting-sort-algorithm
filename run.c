@@ -42,11 +42,11 @@ void load_index_array(size_t *index_array, int *array, size_t array_size) {
 }
 
 void map_index_array(size_t *index_array, size_t index_array_size, size_t i) {
-  index_array[i] += index_array[i-1];
-
   if (i >= index_array_size) return;
+
+  index_array[i] += index_array[i-1];
   map_index_array(index_array, index_array_size, ++i);
-};
+}
 
 void load_new_array(int *new_array, int *array, size_t *index_array, size_t size) {
   size--;
