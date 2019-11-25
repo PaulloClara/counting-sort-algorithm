@@ -1,23 +1,16 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-#define TRUE 1
-#define FALSE 0
-
-int show_error(char *error_msg) {
+int error(char *error_msg) {
   printf("\n\t\033[1;93m%s\033[0;0m\n", error_msg);
   return 1;
 }
 
-size_t end_array(char *array, size_t index) {
-  return array[index] == '\0' || array[index] == '\n' ? TRUE : FALSE;
-}
-
-void load_array(char *input_array[], int *array, size_t array_size) {
+void load(char *input_array[], int *array, size_t array_size) {
   array[array_size-1] = atoi(input_array[array_size]);
 
   if (array_size == 1) return;
-  load_array(input_array, array, --array_size);
+  load(input_array, array, --array_size);
 }
 
 size_t get_higher_value(int *array, size_t array_size, size_t higher_value) {
@@ -56,20 +49,20 @@ void load_new_array(int *new_array, int *array, size_t *index_array, size_t size
   load_new_array(new_array, array, index_array, size);
 }
 
-void show_array(int *array, size_t array_size, size_t i) {
+void show(int *array, size_t array_size, size_t i) {
   printf("%d, ", array[i++]);
 
   if (i >= array_size) return;
-  show_array(array, array_size, i);
+  show(array, array_size, i);
 }
 
 int main(int argc, char *argv[]) {
-  if (argc < 3) return show_error("Array not found!");
+  if (argc < 3) return error("Array not found!");
 
   size_t array_size = argc - 1;
   int array[array_size];
 
-  load_array(argv, array, array_size);
+  load(argv, array, array_size);
 
   size_t index_array_size = get_higher_value(array, array_size, array[0]);
   size_t index_array[++index_array_size];
@@ -83,7 +76,7 @@ int main(int argc, char *argv[]) {
   load_new_array(new_array, array, index_array, array_size);
 
   printf("\n\n\t[");
-  show_array(new_array, array_size, 0);
+  show(new_array, array_size, 0);
   printf("\b\b]\n\n\n");
 
   return 0;
